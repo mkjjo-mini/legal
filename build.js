@@ -23,7 +23,14 @@ function renderBody(text) {
 
 function renderDoc(doc) {
   const { appName, docTitle, effectiveDate, seller, sections, slug, docType } = doc;
-  const other = docType === 'terms' ? ['개인정보처리방침', 'privacy.html'] : ['이용약관', 'terms.html'];
+  const NAV = {
+    terms: ['이용약관', 'terms.html'],
+    privacy: ['개인정보처리방침', 'privacy.html'],
+    'consent-collection': ['개인정보 수집·이용 동의', 'consent-collection.html'],
+  };
+  const others = Object.keys(NAV)
+    .filter((k) => k !== docType)
+    .map((k) => NAV[k]);
   const body = sections
     .map(([title, text]) => `    <section>\n      <h2>${escapeHtml(title)}</h2>\n      ${renderBody(text)}\n    </section>`)
     .join('\n');
@@ -57,7 +64,7 @@ ${body}
     </dl>
   </section>
   <nav class="footer-nav">
-    <a href="${other[1]}">${other[0]}</a>
+    ${others.map((o) => `<a href="${o[1]}">${o[0]}</a>`).join('\n    ')}
     <a href="../index.html">전체 문서 목록</a>
   </nav>
 </main>
@@ -102,7 +109,7 @@ ${apps
   .map(
     (a) => `  <section>
     <h2>${escapeHtml(a.appName)}</h2>
-    <p><a href="${a.slug}/terms.html">이용약관</a> · <a href="${a.slug}/privacy.html">개인정보처리방침</a></p>
+    <p><a href="${a.slug}/terms.html">이용약관</a> · <a href="${a.slug}/privacy.html">개인정보처리방침</a> · <a href="${a.slug}/consent-collection.html">개인정보 수집·이용 동의</a></p>
     <p class="date">시행일: ${escapeHtml(a.effectiveDate)}</p>
   </section>`
   )
