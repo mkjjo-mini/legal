@@ -27,6 +27,7 @@ function renderDoc(doc) {
     terms: ['이용약관', 'terms.html'],
     privacy: ['개인정보처리방침', 'privacy.html'],
     'consent-collection': ['개인정보 수집·이용 동의', 'consent-collection.html'],
+    'marketing-consent': ['마케팅 정보 수신 동의', 'marketing-consent.html'],
   };
   const others = Object.keys(NAV)
     .filter((k) => k !== docType)
@@ -109,7 +110,7 @@ ${apps
   .map(
     (a) => `  <section>
     <h2>${escapeHtml(a.appName)}</h2>
-    <p><a href="${a.slug}/terms.html">이용약관</a> · <a href="${a.slug}/privacy.html">개인정보처리방침</a> · <a href="${a.slug}/consent-collection.html">개인정보 수집·이용 동의</a></p>
+    <p><a href="${a.slug}/terms.html">이용약관</a> · <a href="${a.slug}/privacy.html">개인정보처리방침</a> · <a href="${a.slug}/consent-collection.html">개인정보 수집·이용 동의</a> · <a href="${a.slug}/marketing-consent.html">마케팅 정보 수신 동의</a></p>
     <p class="date">시행일: ${escapeHtml(a.effectiveDate)}</p>
   </section>`
   )
