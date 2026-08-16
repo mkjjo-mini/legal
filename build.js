@@ -59,8 +59,8 @@ ${body}
       <div><dt>사업장 주소</dt><dd>${escapeHtml(seller.address)}</dd></div>
       <div><dt>사업자등록번호</dt><dd>${escapeHtml(seller.businessRegistrationNumber)}</dd></div>
       <div><dt>통신판매업 신고번호</dt><dd>${escapeHtml(seller.mailOrderSalesNumber)}</dd></div>
-      <div><dt>전화</dt><dd>${escapeHtml(seller.phone)}</dd></div>
-      <div><dt>이메일</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>
+      <div><dt>문의·불만 처리 전화</dt><dd>${escapeHtml(seller.phone)}</dd></div>
+      <div><dt>문의·불만 처리 이메일</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>
     </dl>
   </section>
   <nav class="footer-nav">

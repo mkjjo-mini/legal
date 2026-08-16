@@ -11,7 +11,8 @@
 const SELLER = {
   companyName: '아임나코805',
   representative: '조미경',
-  address: '서울특별시 서초구 반포대로18길 36, 201동 25층 4호(서초동, 서초센트럴IPARK)',
+  // 도로명 + 건물명까지만. 축약 근거는 앱 소스 src/content/sellerInfo.ts 주석 참조.
+  address: '서울특별시 서초구 반포대로18길 36(서초동, 서초센트럴IPARK)',
   phone: '0507-1357-1334',
   businessRegistrationNumber: '776-11-01043',
   mailOrderSalesNumber: '제2026-서울서초-1184호',
