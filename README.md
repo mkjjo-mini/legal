@@ -22,6 +22,7 @@ build.js              생성기 — node build.js
 {slug}/terms.html     생성물 (직접 편집 금지)
 {slug}/privacy.html   생성물 (직접 편집 금지)
 {slug}/og-share.png   OG 공유 이미지
+fitboard/index.html   매체 소개(직접 작성 — build.js 생성물 아님)
 ```
 
 ## ⚠️ 앱 내 화면과 반드시 동기화
