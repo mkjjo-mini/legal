@@ -3,11 +3,53 @@
   "updatedAt": "2026-09-27",
   "items": [
     {
-      "id": "mister",
+      "id": "mister-1",
       "category": "mister",
       "channel": "toss",
       "productName": "싱글사리,크리스탈 원예용 압축 분무기,그레이,1개",
       "url": "https://toss.shopping/_m/bplsXR6n"
+    },
+    {
+      "id": "hygrometer-1",
+      "category": "hygrometer",
+      "channel": "toss",
+      "productName": "카스 디지털 온습도계, T025, 화이트, 1개",
+      "url": "https://toss.shopping/_m/lScrIxb2"
+    },
+    {
+      "id": "hygrometer-2",
+      "category": "hygrometer",
+      "channel": "toss",
+      "productName": "베노아르 미니 포켓 온습도계 휴대용 초소형, 1개",
+      "url": "https://toss.shopping/_m/9K0BVGGe"
+    },
+    {
+      "id": "soil-1",
+      "category": "soil",
+      "channel": "toss",
+      "productName": "땅심 바이오 용토, 35L, 1개",
+      "url": "https://toss.shopping/_m/nEjuu8Fx"
+    },
+    {
+      "id": "soil-2",
+      "category": "soil",
+      "channel": "toss",
+      "productName": "거목산업사 최고급 분갈이흙, 30L, 1개",
+      "url": "https://toss.shopping/_m/N6UYkxrh"
+    },
+    {
+      "id": "pot-1",
+      "category": "pot",
+      "channel": "toss",
+      "productName": "에코벨 플라스틱 원형화분, 그린, 16x13x18cm, 1개",
+      "url": "https://toss.shopping/_m/nEHdS2p4"
+    },
+    {
+      "id": "drainNet-1",
+      "category": "drainNet",
+      "channel": "toss",
+      "productName": "초보도 쉽게 하는 분갈이 화분 바닥 배수망 필터패드, 화이트, 10개입, 1세트",
+      "url": "https://toss.shopping/_m/nR6Dwif7"
     }
   ]
 }
