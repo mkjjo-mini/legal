@@ -114,5 +114,79 @@
       "url": "https://toss.shopping/_m/5GB9mm3A",
       "imageUrl": "https://shopping.toss.im/live/taca/ai/v2/NmU2M2Nj/QU16V2pvNVRLUjFqcHBibWR0eHNpOFV6aXpjNVpGYk9acDQ1dWNVUjBFWTY.png"
     }
+  ],
+  "shelf": [
+    {
+      "id": "shelf-pot-1",
+      "category": "pot",
+      "channel": "toss",
+      "productName": "에코벨 플라스틱 원형화분, 그린, 16x13x18cm, 1개",
+      "url": "https://toss.shopping/_m/nEHdS2p4",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/Mjk3NGE5/QU9aOGJHNzNuNjhaOXd5SEwvK0JIekhIUEwwK3FKUSs4VE54M2x2andJdWg.png",
+      "group": "basic"
+    },
+    {
+      "id": "shelf-soil-1",
+      "category": "soil",
+      "channel": "toss",
+      "productName": "땅심 바이오 용토, 35L, 1개",
+      "url": "https://toss.shopping/_m/nEjuu8Fx",
+      "imageUrl": "https://shopping.toss.im/live/product/608135/25446484-a698-40af-82ea-f153a4800abc.png",
+      "group": "basic"
+    },
+    {
+      "id": "shelf-drainNet-1",
+      "category": "drainNet",
+      "channel": "toss",
+      "productName": "초보도 쉽게 하는 분갈이 화분 바닥 배수망 필터패드, 화이트, 10개입, 1세트",
+      "url": "https://toss.shopping/_m/nR6Dwif7",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/ZDk3ODFj/RFh4YWN5MXBlMmFndE9lbTFKTURwbG9iQVh2L0R2QWloY3o4RUFPckQzST0.png",
+      "group": "basic"
+    },
+    {
+      "id": "shelf-saucer-1",
+      "category": "saucer",
+      "channel": "toss",
+      "productName": "트리저브 화분 받침대, 클라우디 크림, 원형, 대형, 1개",
+      "url": "https://toss.shopping/_m/RLaNOGd3",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/YWE4M2Qw/WDhEZkErQi84SCsvbFg4QWZWdmwvMFhRRHdjSGh4bDBQMC8zUWRId2x0Zz0.png",
+      "group": "basic"
+    },
+    {
+      "id": "shelf-wateringCan-1",
+      "category": "wateringCan",
+      "channel": "toss",
+      "productName": "화분 물조리개, 그린, 1400ml, 1개",
+      "url": "https://toss.shopping/_m/ztG4hUCf",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/v2/NDM4NmNm/REdZQVBnQWJKWXVhTkF0WGhPc3hPMncyM0Y3Yk9lZXhjam5BTzREV244dz0.png",
+      "group": "water"
+    },
+    {
+      "id": "shelf-mister-1",
+      "category": "mister",
+      "channel": "toss",
+      "productName": "싱글사리,크리스탈 원예용 압축 분무기,그레이,1개",
+      "url": "https://toss.shopping/_m/bplsXR6n",
+      "imageUrl": "https://shopping.toss.im/live/temp/2024-11-23/b7ec4c0f-8026-4f98-bcdf-615b60823306.jpeg",
+      "group": "water"
+    },
+    {
+      "id": "shelf-hygrometer-1",
+      "category": "hygrometer",
+      "channel": "toss",
+      "productName": "카스 디지털 온습도계, T025, 화이트, 1개",
+      "url": "https://toss.shopping/_m/lScrIxb2",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/v2/YmVlNDUz/TENZbHBOdGJtbW5uTEd5VGVMbm1Ub2N1TXpGSzA4eXh0Y25HenFVa09iRT0.png",
+      "group": "water"
+    },
+    {
+      "id": "shelf-growLight-1",
+      "category": "growLight",
+      "channel": "toss",
+      "productName": "노바리빙 잎파랑 LED 식물등 페어리, 페어리, 1개",
+      "url": "https://toss.shopping/_m/5GB9mm3A",
+      "imageUrl": "https://shopping.toss.im/live/taca/ai/v2/NmU2M2Nj/QU16V2pvNVRLUjFqcHBibWR0eHNpOFV6aXpjNVpGYk9acDQ1dWNVUjBFWTY.png",
+      "group": "light"
+    }
   ]
 }
