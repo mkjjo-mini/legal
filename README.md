@@ -21,6 +21,7 @@ content/{slug}.js     문안 원본 (여기만 고친다)
 build.js              생성기 — node build.js
 {slug}/terms.html     생성물 (직접 편집 금지)
 {slug}/privacy.html   생성물 (직접 편집 금지)
+{slug}/support.html   생성물 (직접 편집 금지) — 지원 안내. 지금은 golin만 쓴다
 {slug}/og-share.png   OG 공유 이미지
 fitboard/index.html   매체 소개(직접 작성 — build.js 생성물 아님)
 plant-rescue/         서비스 소개 + 상품 목록 JSON(직접 작성) — plant-rescue/README.md
@@ -41,6 +42,14 @@ plant-rescue/         서비스 소개 + 상품 목록 JSON(직접 작성) — p
 
 > ⚠️ 3호기는 약관을 앱 화면으로만 제공한다. 웹 버전이 필요해지는 시점(콘솔이 URL을 요구하거나 외부 공유가 생길 때)에는 **앱 화면 문안을 그대로 옮겨** `content/three-line-diary.js`를 만들고 두 벌을 동기화해야 한다. 2026-08-16에 처리방침 §4(의견 보내기와 함께 전달되는 정보 — 기기 식별자·구독 상태)가 추가됐으므로 그 내용까지 포함해야 한다.
 
+## 미니앱이 아닌 앱
+
+| 앱 | 문서 | 쓰는 곳 |
+|----|------|---------|
+| `golin` (골린 — 애플워치 앱) | `golin/support.html` · `golin/privacy.html` | App Store Connect의 지원 URL · 개인정보 처리방침 URL |
+
+골린은 앱인토스 미니앱이 아니라 App Store로 배포한다. 앱 안에 약관·처리방침 화면이 없어 동기화할 대상은 없지만, 앱에 네트워크 전송이나 분석 도구를 넣으면 `content/golin.js`와 App Store Connect의 "앱이 수집하는 개인정보" 신고를 함께 고쳐야 한다. 이용약관은 두지 않는다(Apple 표준 사용권 계약 적용).
+
 ## 문서 갱신 절차
 
 1. `content/{slug}.js` 수정
@@ -50,4 +59,4 @@ plant-rescue/         서비스 소개 + 상품 목록 JSON(직접 작성) — p
 
 ## 신규 미니앱 추가
 
-`content/{new-slug}.js`를 기존 파일 형식대로 만들고 `node build.js`를 실행하면 폴더·index 링크가 자동 생성된다.
+`content/{new-slug}.js`를 기존 파일 형식대로 만들고 `node build.js`를 실행하면 폴더·index 링크가 자동 생성된다. 문서 사이 링크와 index 링크는 그 파일이 내보낸 문서 종류(`support`·`terms`·`privacy`·`marketing-consent`)에만 걸린다.

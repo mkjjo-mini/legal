@@ -21,15 +21,18 @@ function renderBody(text) {
     .join('\n      ');
 }
 
-function renderDoc(doc) {
+const NAV = {
+  support: ['지원 안내', 'support.html'],
+  terms: ['이용약관', 'terms.html'],
+  privacy: ['개인정보처리방침', 'privacy.html'],
+  'marketing-consent': ['마케팅 정보 수신 동의', 'marketing-consent.html'],
+};
+
+function renderDoc(doc, docTypes) {
   const { appName, docTitle, effectiveDate, seller, sections, slug, docType } = doc;
-  const NAV = {
-    terms: ['이용약관', 'terms.html'],
-    privacy: ['개인정보처리방침', 'privacy.html'],
-    'marketing-consent': ['마케팅 정보 수신 동의', 'marketing-consent.html'],
-  };
+  // 그 서비스에 실제로 있는 문서만 잇는다(없는 문서로 가는 링크를 만들지 않는다).
   const others = Object.keys(NAV)
-    .filter((k) => k !== docType)
+    .filter((k) => k !== docType && docTypes.includes(k))
     .map((k) => NAV[k]);
   const body = sections
     .map(([title, text]) => `    <section>\n      <h2>${escapeHtml(title)}</h2>\n      ${renderBody(text)}\n    </section>`)
@@ -82,12 +85,13 @@ for (const file of files) {
   const dir = path.join(ROOT, slug);
   fs.mkdirSync(dir, { recursive: true });
 
+  const docTypes = docs.map((d) => d.docType);
   for (const doc of docs) {
     const out = path.join(dir, `${doc.docType}.html`);
-    fs.writeFileSync(out, renderDoc(doc), 'utf8');
+    fs.writeFileSync(out, renderDoc(doc, docTypes), 'utf8');
     console.log(`✓ ${slug}/${doc.docType}.html`);
   }
-  apps.push({ slug, appName: docs[0].appName, effectiveDate: docs[0].effectiveDate });
+  apps.push({ slug, appName: docs[0].appName, effectiveDate: docs[0].effectiveDate, docTypes });
 }
 
 const indexHtml = `<!doctype html>
@@ -109,7 +113,10 @@ ${apps
   .map(
     (a) => `  <section>
     <h2>${escapeHtml(a.appName)}</h2>
-    <p><a href="${a.slug}/terms.html">이용약관</a> · <a href="${a.slug}/privacy.html">개인정보처리방침</a> · <a href="${a.slug}/marketing-consent.html">마케팅 정보 수신 동의</a></p>
+    <p>${Object.keys(NAV)
+      .filter((k) => a.docTypes.includes(k))
+      .map((k) => `<a href="${a.slug}/${NAV[k][1]}">${NAV[k][0]}</a>`)
+      .join(' · ')}</p>
     <p class="date">시행일: ${escapeHtml(a.effectiveDate)}</p>
   </section>`
   )
