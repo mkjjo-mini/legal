@@ -34,6 +34,23 @@ function renderDoc(doc, docTypes) {
   const others = Object.keys(NAV)
     .filter((k) => k !== docType && docTypes.includes(k))
     .map((k) => NAV[k]);
+  // 사업자 정보는 문안 파일이 적은 항목만 보여준다(골린은 상호·이메일만 둔다).
+  const sellerRows = [
+    ['상호', seller.companyName],
+    ['대표자', seller.representative],
+    ['사업장 주소', seller.address],
+    ['사업자등록번호', seller.businessRegistrationNumber],
+    ['통신판매업 신고번호', seller.mailOrderSalesNumber],
+    ['문의·불만 처리 전화', seller.phone],
+  ]
+    .filter(([, value]) => value)
+    .map(([label, value]) => `      <div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`)
+    .concat(
+      seller.email
+        ? [`      <div><dt>문의·불만 처리 이메일</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>`]
+        : []
+    )
+    .join('\n');
   const body = sections
     .map(([title, text]) => `    <section>\n      <h2>${escapeHtml(title)}</h2>\n      ${renderBody(text)}\n    </section>`)
     .join('\n');
@@ -57,13 +74,7 @@ ${body}
   <section class="seller">
     <h2>사업자 정보</h2>
     <dl>
-      <div><dt>상호</dt><dd>${escapeHtml(seller.companyName)}</dd></div>
-      <div><dt>대표자</dt><dd>${escapeHtml(seller.representative)}</dd></div>
-      <div><dt>사업장 주소</dt><dd>${escapeHtml(seller.address)}</dd></div>
-      <div><dt>사업자등록번호</dt><dd>${escapeHtml(seller.businessRegistrationNumber)}</dd></div>
-      <div><dt>통신판매업 신고번호</dt><dd>${escapeHtml(seller.mailOrderSalesNumber)}</dd></div>
-      <div><dt>문의·불만 처리 전화</dt><dd>${escapeHtml(seller.phone)}</dd></div>
-      <div><dt>문의·불만 처리 이메일</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>
+${sellerRows}
     </dl>
   </section>
   <nav class="footer-nav">
