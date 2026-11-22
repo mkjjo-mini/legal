@@ -26,28 +26,54 @@ const NAV = {
   terms: ['이용약관', 'terms.html'],
   privacy: ['개인정보처리방침', 'privacy.html'],
   'marketing-consent': ['마케팅 정보 수신 동의', 'marketing-consent.html'],
+  // 영문판 — 문서에 lang: 'en' 을 적고 docType 끝에 -en 을 붙인다(지금은 Toile 만)
+  'terms-en': ['Terms of Service', 'terms-en.html'],
+  'privacy-en': ['Privacy Policy', 'privacy-en.html'],
+};
+
+const isEnType = (k) => k.endsWith('-en');
+
+/** 화면 고정 라벨 — 문서 언어(lang)를 따른다. 기본은 한국어 */
+const LABELS = {
+  ko: {
+    effective: '시행일', seller: '사업자 정보', allDocs: '전체 문서 목록', other: 'English',
+    companyName: '상호', representative: '대표자', address: '사업장 주소',
+    businessRegistrationNumber: '사업자등록번호', mailOrderSalesNumber: '통신판매업 신고번호',
+    phone: '문의·불만 처리 전화', email: '문의·불만 처리 이메일',
+  },
+  en: {
+    effective: 'Effective date', seller: 'Operator', allDocs: 'All documents', other: '한국어',
+    companyName: 'Business name', representative: 'Representative', address: 'Address',
+    businessRegistrationNumber: 'Business registration no.', mailOrderSalesNumber: 'Mail-order sales registration no.',
+    phone: 'Phone', email: 'Email',
+  },
 };
 
 function renderDoc(doc, docTypes) {
   const { appName, docTitle, effectiveDate, seller, sections, slug, docType } = doc;
-  // 그 서비스에 실제로 있는 문서만 잇는다(없는 문서로 가는 링크를 만들지 않는다).
+  const lang = doc.lang === 'en' ? 'en' : 'ko';
+  const L = LABELS[lang];
+  // 그 서비스에 실제로 있는 문서만 잇는다(없는 문서로 가는 링크를 만들지 않는다). 같은 언어끼리 잇고,
+  // 다른 언어판이 있으면 그 문서 하나만 언어 이름으로 잇는다.
   const others = Object.keys(NAV)
-    .filter((k) => k !== docType && docTypes.includes(k))
+    .filter((k) => k !== docType && docTypes.includes(k) && isEnType(k) === (lang === 'en'))
     .map((k) => NAV[k]);
+  const counterpart = lang === 'en' ? docType.replace(/-en$/, '') : `${docType}-en`;
+  if (docTypes.includes(counterpart) && NAV[counterpart]) others.push([L.other, NAV[counterpart][1]]);
   // 사업자 정보는 문안 파일이 적은 항목만 보여준다(골린은 상호·이메일만 둔다).
   const sellerRows = [
-    ['상호', seller.companyName],
-    ['대표자', seller.representative],
-    ['사업장 주소', seller.address],
-    ['사업자등록번호', seller.businessRegistrationNumber],
-    ['통신판매업 신고번호', seller.mailOrderSalesNumber],
-    ['문의·불만 처리 전화', seller.phone],
+    [L.companyName, seller.companyName],
+    [L.representative, seller.representative],
+    [L.address, seller.address],
+    [L.businessRegistrationNumber, seller.businessRegistrationNumber],
+    [L.mailOrderSalesNumber, seller.mailOrderSalesNumber],
+    [L.phone, seller.phone],
   ]
     .filter(([, value]) => value)
     .map(([label, value]) => `      <div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`)
     .concat(
       seller.email
-        ? [`      <div><dt>문의·불만 처리 이메일</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>`]
+        ? [`      <div><dt>${L.email}</dt><dd><a href="mailto:${escapeHtml(seller.email)}">${escapeHtml(seller.email)}</a></dd></div>`]
         : []
     )
     .join('\n');
@@ -56,7 +82,7 @@ function renderDoc(doc, docTypes) {
     .join('\n');
 
   return `<!doctype html>
-<html lang="ko">
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -68,18 +94,18 @@ function renderDoc(doc, docTypes) {
   <header>
     <p class="app">${escapeHtml(appName)}</p>
     <h1>${escapeHtml(docTitle)}</h1>
-    <p class="date">시행일: ${escapeHtml(effectiveDate)}</p>
+    <p class="date">${L.effective}: ${escapeHtml(effectiveDate)}</p>
   </header>
 ${body}
   <section class="seller">
-    <h2>사업자 정보</h2>
+    <h2>${L.seller}</h2>
     <dl>
 ${sellerRows}
     </dl>
   </section>
   <nav class="footer-nav">
     ${others.map((o) => `<a href="${o[1]}">${o[0]}</a>`).join('\n    ')}
-    <a href="../index.html">전체 문서 목록</a>
+    <a href="../index.html">${L.allDocs}</a>
   </nav>
 </main>
 </body>

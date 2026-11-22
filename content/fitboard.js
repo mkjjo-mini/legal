@@ -10,6 +10,9 @@
  * ⚠️ 앱과 같은 내용이어야 한다. 앱은 이 두 주소를 연다(fitboard `src/features/legal/copy.ts`).
  * ⚠️ 처리 범위가 바뀌면(새 SDK·새 AI 공급자·위치 사용 등) 여기와 스토어 「앱이 수집하는 개인정보」 신고를 함께 고친다.
  * ⚠️ 초안 — 출시 전 법률 검토 필요(오너 결정 2026-11-08).
+ * ⚠️ 동의 구조(2026-11-22): 동의 대상은 약관뿐. 처리방침은 고지 문서라 동의로 묶지 않는다 — 수탁사·국외 이전 업체는
+ *    처리방침 4번 목록만 고치고 알리면 된다(개인정보 보호법 §26②·§28조의8①3호). 업체를 더할 땐 처리 위치·맡은 일·넘어가는 정보·연락처 네 가지를 채운다.
+ *    업체가 자기 목적(AI 학습 등)으로 쓰면 위탁이 아니라 제3자 제공이라 별도 동의가 필요하다 — 계약 조건을 먼저 확인.
  *
  * 코드 확인 기준: 2026-11-15 (fitboard main 373346c + PR #163 추천 기록 · #165 분석 사람 식별).
  *  · 로그인: 이메일 6자리 코드(Supabase Auth, 메일 발송 Resend) · Apple · Google
@@ -32,8 +35,8 @@ const SELLER = {
   email: 'imnaco805@gmail.com',
 };
 
-const EFFECTIVE_DATE = '2026-11-08'; // 이용약관
-const PRIVACY_DATE = '2026-11-22'; // 개인정보처리방침 — PostHog 서버를 EU(독일)로 옮김
+const EFFECTIVE_DATE = '2026-11-22'; // 이용약관 — 제13조에 「거부하지 않으면 동의로 본다」 문구 추가
+const PRIVACY_DATE = '2026-11-22'; // 개인정보처리방침 — PostHog 서버를 EU(독일)로 옮김 · 법적 근거·국외 이전 항목 보강 · 영문판에 맞춤 추천·조회 기록 고지
 const APP = 'Toile (뚜왈)';
 
 const terms = {
@@ -58,7 +61,7 @@ const terms = {
 
     ['제7조 공개하는 이용자의 보증과 책임', '코디를 공개하는 이용자는 다음을 보증해요.\n\n· 사진을 본인이 직접 찍었고, 사진에 대한 권리를 가지고 있어요.\n· 사진에 다른 사람이 나왔다면 그 사람에게 공개 동의를 받았어요.\n· 사진이 다른 사람의 저작권·초상권·개인정보 등 권리를 침해하지 않아요.\n\n이 보증이 사실과 달라 제3자가 회사에 이의를 제기하거나 손해배상을 청구하면, 공개한 이용자가 자신의 책임과 비용으로 해결해야 해요. 이 때문에 회사에 손해가 생기면 회사는 그 이용자에게 배상을 청구할 수 있어요. 다만 회사에 고의 또는 과실이 있으면 그 범위에서는 회사가 책임져요.'],
 
-    ['제8조 금지 행위', '이용자는 다음 행위를 하면 안 돼요.\n\n· 다른 사람이 찍은 사진을 직접 찍었다고 표시해 공개하는 행위\n· 다른 사람의 얼굴이나 신체가 나온 사진을 그 사람 동의 없이 공개하는 행위\n· 음란·폭력·혐오·차별 사진이나 불법 정보를 올리는 행위\n· 다른 사람의 계정을 쓰거나, 서비스를 자동화된 방법으로 대량 이용하는 행위\n· 서비스의 정상적인 운영을 방해하는 행위\n\n회사는 불쾌하거나 부적절한 콘텐츠를 용납하지 않아요. 이를 어기면 사전 통지 없이 콘텐츠를 내리고 이용을 제한할 수 있어요.'],
+    ['제8조 금지 행위', '이용자는 다음 행위를 하면 안 돼요.\n\n· 다른 사람이 찍은 사진을 직접 찍었다고 표시해 공개하는 행위\n· 다른 사람의 얼굴이나 신체가 나온 사진을 그 사람 동의 없이 공개하거나 프로필 사진으로 쓰는 행위\n· 음란·폭력·혐오·차별 사진이나 불법 정보를 올리는 행위\n· 다른 사람의 계정을 쓰거나, 서비스를 자동화된 방법으로 대량 이용하는 행위\n· 서비스의 정상적인 운영을 방해하는 행위\n\n회사는 불쾌하거나 부적절한 콘텐츠를 용납하지 않아요. 이를 어기면 사전 통지 없이 콘텐츠를 내리고 이용을 제한할 수 있어요.'],
 
     ['제9조 신고와 권리 침해 처리', '[앱 안 신고]\n공개 코디의 「신고」에서 「내 얼굴이 나왔어요」, 「내 사진인데 다른 사람이 올렸어요」, 「불쾌하거나 부적절해요」 등을 고를 수 있어요. 신고하면 신고한 이용자에게서 그 코디가 즉시 숨겨져요. 「이 사용자의 사진 모두 숨기기」로 특정 이용자를 차단할 수도 있어요.\n\n[권리 침해 신고(저작권법 제103조)]\n자신의 저작권·초상권 등이 침해됐다고 판단하는 권리자는 아래 수신인에게 침해 사진, 신고인 성명·연락처, 권리자임을 알 수 있는 내용을 보내 주세요.\n\n· 수신인: ' + SELLER.representative + '\n· 주소: ' + SELLER.address + '\n· 전화: ' + SELLER.phone + '\n· 이메일: ' + SELLER.email + '\n\n[처리 기준]\n· 접수 후 영업일 2일 안에 해당 사진의 공개를 중단하고 신고인과 게시자에게 결과를 알려요.\n· 게시자는 정당한 권리가 있음을 소명해 재게시를 요청할 수 있어요.\n· 처리 이력을 보관해요.\n· 권리 침해가 반복되는 계정은 공개 업로드를 정지하고, 정도가 심하면 이용을 해지할 수 있어요.\n\n[사생활 침해·명예훼손(정보통신망법 제44조의2)]\n공개 코디에 자신의 얼굴이나 신체가 동의 없이 나왔거나, 사생활 침해·명예훼손을 당했다고 판단하면 위 수신인이나 앱 안 신고로 삭제 또는 임시조치를 요청할 수 있어요.\n· 회사는 요청을 받으면 지체 없이 해당 코디를 삭제하거나, 다른 이용자가 볼 수 없게 가리는 임시조치를 하고 요청인과 게시자에게 알려요.\n· 권리 침해 여부를 판단하기 어렵거나 다툼이 예상되면 30일 이내로 임시조치를 해요.\n· 게시자는 임시조치 기간 안에 재게시를 요청할 수 있고, 기간 안에 요청이 없으면 회사는 해당 코디를 삭제해요.\n· 회사는 필요한 조치를 한 뒤 그 내용을 게시판 등에 공개할 수 있어요.\n\n회사는 공개 사진이 다른 사람의 권리를 침해하는지를 자동으로 판정하지 않아요. 신고를 받아 처리해요.'],
 
@@ -68,9 +71,9 @@ const terms = {
 
     ['제12조 회사의 책임 제한', '· 회사는 천재지변, 통신 장애 등 회사가 통제할 수 없는 사유로 서비스를 제공하지 못하면 책임을 지지 않아요.\n· 회사는 이용자가 올리거나 담은 사진의 내용에 대해 회사의 고의 또는 과실이 없는 한 책임을 지지 않아요.\n· 회사는 무료로 제공하는 서비스와 관련해 관련 법령이 정한 범위를 넘는 책임은 지지 않아요.'],
 
-    ['제13조 약관 변경', `회사는 관련 법령을 어기지 않는 범위에서 약관을 바꿀 수 있어요. 바꿀 때는 변경 내용과 시행일을 시행 7일 전부터(이용자에게 불리한 변경은 30일 전부터) 앱 안과 이 화면에 알려드려요. 변경에 동의하지 않으면 탈퇴할 수 있어요.`],
+    ['제13조 약관 변경', `회사는 관련 법령을 어기지 않는 범위에서 약관을 바꿀 수 있어요. 바꿀 때는 변경 내용과 시행일을 시행 7일 전부터(이용자에게 불리한 변경은 30일 전부터) 앱 안과 이 화면에 알려드려요.\n\n알려드린 시행일 전까지 거부 의사를 밝히지 않고 서비스를 계속 이용하면 바뀐 약관에 동의한 것으로 봐요. 이 점은 변경을 알릴 때마다 따로 분명하게 안내해요. 변경에 동의하지 않으면 탈퇴할 수 있어요.`],
 
-    ['제14조 분쟁 해결', '이 약관은 대한민국 법을 따라요. 서비스와 관련한 분쟁은 민사소송법에 따른 관할 법원에서 해결해요.'],
+    ['제14조 분쟁 해결', '이 약관은 대한민국 법을 따라요. 서비스와 관련한 분쟁은 민사소송법에 따른 관할 법원에서 해결해요.\n\n이 약관의 한국어판과 영어판 내용이 다르면, 이용자가 앱에서 쓰는 언어의 판을 따라요.'],
 
     ['부칙', `이 약관은 ${EFFECTIVE_DATE}부터 적용돼요.`],
   ],
@@ -86,11 +89,11 @@ const privacy = {
   sections: [
     ['1. 처리하는 항목', `${SELLER.companyName}(이하 "회사")는 Toile 서비스를 제공하는 데 필요한 최소한의 정보만 처리해요.\n\n[가입·로그인]\n· 이메일 주소(이메일 인증 가입 시)\n· Apple 또는 Google 계정 식별자와 이메일(해당 계정으로 가입 시)\n\n[이용자가 담은 것]\n· 코디 사진과 옷 사진, 그 사진에서 인식하거나 이용자가 입력한 정보(옷의 종류·색 등 속성, 코디의 스타일·상황·계절 등 태그, 옷 이름 등)\n· 웹 주소로 담은 경우 원래 출처 주소\n· 착용 기록, 저장한 조합, AI 코디 이미지\n· 날씨를 볼 도시(이용자가 고른 도시. 기기 위치는 수집하지 않아요)\n\n[공개·신고]\n· 공개 프로필 이름, 만 19세 이상 여부, 본인 촬영 선언 여부\n· 신고 내용과 처리 이력, 차단한 이용자 목록, 숨긴 코디와 이용자 목록\n\n[자동으로 생기는 정보]\n· 앱 이용 기록(어떤 화면을 열고 어떤 기능을 썼는지), 기기·운영체제 종류, 앱 언어, 접속 시각\n· 서비스 안에서의 반응(담기·하트·숨기기·입기 등)과 조회 기록(어떤 코디가 보였고 열어 봤는지, 머문 시간)\n· 이용 기록은 이메일이 아닌 회원 식별 번호로 묶어요.\n· 웹 주소·사진 경로·이메일·옷 이름 같은 내용은 이용 기록에 남기지 않아요. 화면 녹화(세션 리플레이)도 하지 않아요.\n\n사진 앨범에서 사진을 담기 전에 사진의 위치 정보 등 촬영 정보(EXIF)를 기기에서 지운 뒤 올려요.`],
 
-    ['2. 처리 목적', '· 회원 식별과 로그인\n· 담은 사진 보관, 옷 인식, 옷장·조합·착용 기록·날씨 코디 제공\n· 공개 코디 표시, 불쾌한 사진 검사, 신고·권리 침해 처리, 부정 이용 방지\n· 담은 정보와 이용 기록을 바탕으로 한 맞춤 추천(발견의 추천 코디 고르기·순서 정하기)\n· 서비스 개선을 위한 이용 통계 분석(이름·이메일 같은 직접 식별 정보 없이 회원 식별 번호로 분석)\n· 문의 응대'],
+    ['2. 처리 목적과 법적 근거', '· 회원 식별과 로그인\n· 담은 사진 보관, 옷 인식, 옷장·조합·착용 기록·날씨 코디 제공\n· 공개 코디 표시, 불쾌한 사진 검사, 신고·권리 침해 처리, 부정 이용 방지\n· 담은 정보와 이용 기록을 바탕으로 한 맞춤 추천(발견의 추천 코디 고르기·순서 정하기)\n· 서비스 개선을 위한 이용 통계 분석(이름·이메일 같은 직접 식별 정보 없이 회원 식별 번호로 분석)\n· 문의 응대\n\n[동의 없이 처리하는 정보와 법적 근거]\n회사는 아래 근거로 처리하고, 따로 동의를 받지 않아요.\n· 가입·로그인 정보, 이용자가 담은 것, 공개 코디, 맞춤 추천 — 이용자와 맺은 서비스 이용 계약의 이행(개인정보 보호법 제15조 제1항 제4호)\n· 불쾌한 사진 검사, 신고·권리 침해 처리, 부정 이용 방지, 이용 통계 — 회사의 정당한 이익(같은 항 제6호)\n· 법령이 요구하는 보관·제출 — 법률상 의무(같은 항 제2호)\n\n동의가 필요한 처리(광고성 알림, 제3자 제공 등)가 생기면 그 기능을 쓰는 때에 그 항목만 따로 동의받아요.'],
 
-    ['3. 보유 기간과 파기', '· 탈퇴하면 계정, 담은 사진, 옷장·조합·착용 기록, 공개 코디를 지체 없이 지워요. 지운 정보는 되살릴 수 없어요.\n· 이용자가 사진이나 코디를 지우면 그 즉시 지워요.\n· 권리 침해 신고 처리 이력은 분쟁 대응을 위해 처리 완료 후 3년간 보관한 뒤 지워요.\n· 이용 기록(이용 통계, 반응·조회 기록)은 수집 후 최대 1년간 보관한 뒤 지워요. 탈퇴하면 그 전이라도 함께 지워요.\n· 법령이 보관을 요구하는 정보는 그 기간 동안 보관해요.'],
+    ['3. 보유 기간과 파기', '· 탈퇴하면 계정, 담은 사진, 옷장·조합·착용 기록, 공개 코디를 지체 없이 지워요. 지운 정보는 되살릴 수 없어요.\n· 이용자가 사진이나 코디를 지우면 그 즉시 지워요.\n· 권리 침해 신고 처리 이력은 분쟁 대응을 위해 처리 완료 후 3년간 보관한 뒤 지워요. 법이 정한 기간이 아니라 손해배상 청구 기한(민법 제766조)을 고려해 회사가 정한 기간이에요.\n· 이용 기록(이용 통계, 반응·조회 기록)은 수집 후 1년이 지나면 지우거나, 개인을 알아볼 수 없는 합계 숫자로만 남겨요. 탈퇴하면 그 전이라도 함께 지워요.\n· 법령이 보관을 요구하는 정보는 그 기간 동안 보관해요.'],
 
-    ['4. 처리 위탁과 국외 이전', '회사는 서비스 제공을 위해 다음 업체에 처리를 맡겨요. 일부는 국외에서 처리돼요. 이용자가 앱을 쓰는 동안 네트워크로 전송되고, 아래 목적이 끝나거나 위탁 계약이 끝나면 지워져요.\n\n· Supabase, Inc. (서버 위치: 대한민국 서울) — 계정·사진·기록 저장, 로그인\n· Cloudflare, Inc. (미국, 전 세계 거점) — 앱 화면 제공·전송\n· Resend, Inc. (서버 위치: 일본 도쿄) — 로그인 인증 메일 발송 / 이메일 주소\n· Anthropic, PBC (미국) — 사진 속 옷 인식, 공개 전 불쾌한 사진 검사 / 코디 사진. 회사와의 계약상 AI 학습에 쓰지 않아요\n· Google LLC (미국) — AI 코디 이미지 생성 / 옷 사진\n· Apple Inc. (미국) — 고른 도시의 날씨 조회 / 도시 이름만, 이용자 식별 정보 없음\n· PostHog, Inc. (서버 위치: 독일 프랑크푸르트) — 이용 통계 분석 / 이용 기록, 기기 정보, 회원 식별 번호(이메일 제외)\n\n국외 이전을 원하지 않으면 서비스를 이용하지 않거나 탈퇴할 수 있어요. 다만 이 업체들 없이는 서비스를 제공할 수 없어요.'],
+    ['4. 처리 위탁과 국외 이전', '회사는 서비스 제공을 위해 아래 업체에 개인정보 처리를 맡겨요(위탁). 일부는 국외에서 처리돼요.\n\n[국외 이전의 근거]\n아래 근거로, 이 조항의 내용을 공개하고 별도 동의 없이 이전해요.\n· 독일(PostHog): 개인정보 보호위원회가 우리나라와 보호 수준이 같다고 인정한 유럽연합(EU) 안에서 처리해요(개인정보 보호법 제28조의8 제1항 제5호).\n· 그 밖의 나라: 이용자와 맺은 계약을 이행하는 데 필요한 처리 위탁·보관이에요(같은 항 제3호).\n· 이전 시기와 방법: 이용자가 해당 기능을 쓸 때마다 암호화된 통신(HTTPS)으로 전송해요.\n· 보유 기간: 업체는 맡은 일을 마치면 지워요. 늦어도 이용자가 탈퇴하거나 위탁 계약이 끝나면 지워요. 이용 통계는 최대 1년이에요.\n\n[업체 목록] 업체(처리 위치) — 맡은 일 / 넘어가는 정보 / 업체 연락처\n· Supabase, Inc. (대한민국 서울) — 계정·사진·기록 저장, 로그인 / 가입·로그인 정보, 사진, 옷장·조합·착용 기록 / privacy@supabase.com\n· Cloudflare, Inc. (미국, 전 세계 거점) — 앱 화면 제공·전송 / 접속 정보(IP 주소, 기기·브라우저 종류), 로그인 상태 정보 / privacyquestions@cloudflare.com\n· Resend, Inc. (일본 도쿄) — 로그인 인증 메일 발송 / 이메일 주소 / support@resend.com\n· Anthropic, PBC (미국) — 사진 속 옷 인식, 공개 전 불쾌한 사진 검사 / 코디 사진 / privacy@anthropic.com. 회사와의 계약상 AI 학습에 쓰지 않아요\n· Google LLC (미국) — AI 코디 이미지 생성 / 옷 사진 / googlekrsupport@google.com. 유료 API 약관상 AI 학습·제품 개선에 쓰지 않아요\n· Apple Inc. (미국) — 고른 도시의 날씨 조회 / 도시 이름만, 이용자 식별 정보 없음 / apple.com/legal/privacy/contact\n· PostHog, Inc. (독일 프랑크푸르트) — 이용 통계 분석 / 이용 기록, 기기 정보, 회원 식별 번호(이메일 제외) / privacy@posthog.com\n\n[거부 방법]\n국외 이전을 원하지 않으면 서비스를 이용하지 않거나 탈퇴할 수 있어요. 다만 이 업체들 없이는 서비스를 제공할 수 없어요.\n\n[업체가 바뀔 때]\n업체를 추가하거나 바꾸면 이 목록을 지체 없이 고쳐 공개하고 앱 안에서 알려드려요. 위탁 업체 변경은 알려드리는 사항이라 다시 동의받지 않아요.'],
 
     ['5. 제3자 제공', '회사는 이용자의 개인정보를 제3자에게 제공하지 않아요. 다만 법령에 따라 수사기관 등이 요구하는 경우는 예외예요.\n\n「발견」에 코디를 공개하면 그 사진과 공개 프로필 이름이 다른 이용자에게 보여요. 이건 이용자가 직접 선택한 공개예요.\n\n쇼핑의 상품 링크를 누르면 판매처·제휴 네트워크(Rakuten, 링크프라이스 등) 사이트로 이동해요. 그 사이트에서의 정보 처리는 각 사이트의 개인정보처리방침을 따라요.'],
 
@@ -102,8 +105,98 @@ const privacy = {
 
     ['9. 개인정보 보호책임자', `· 성명: ${SELLER.representative}\n· 이메일: ${SELLER.email}\n· 전화: ${SELLER.phone}\n\n개인정보 침해에 대한 신고나 상담은 개인정보침해신고센터(privacy.kisa.or.kr, 국번없이 118), 개인정보분쟁조정위원회(kopico.go.kr, 1833-6972)에도 할 수 있어요.`],
 
-    ['10. 처리방침의 변경', `이 개인정보처리방침은 ${PRIVACY_DATE}부터 적용돼요. 내용을 변경할 때는 변경 사유와 내용을 시행일 7일 전부터 앱 안과 이 화면에 알려드려요.`],
+    ['10. 처리방침의 변경', `이 개인정보처리방침은 ${PRIVACY_DATE}부터 적용돼요.\n\n· 처리 항목·목적·보유 기간처럼 중요한 내용이 바뀌면 시행 전에 앱 안과 이 화면에서 바뀌기 전과 후를 비교해 알려드려요.\n· 위탁 업체 목록 같은 변경은 이 화면을 지체 없이 고치고 앱 안에서 알려드려요.\n· 처리방침은 동의받는 문서가 아니라 알려드리는 문서예요. 동의가 필요한 변경은 그 항목만 따로 동의받아요.`],
   ],
 };
 
-module.exports = [terms, privacy];
+/* ───────────────────────── English (global) ─────────────────────────
+ * 번역이 아니라 영어권 이용자용 한 벌이다 — 한국법 조항(저작권법 §103 · 정보통신망법 §44-2)은 그대로 두되
+ * DMCA 신고 절차 · GDPR/UK GDPR 처리 근거·권리 · CCPA · 13세 미만(COPPA) 조항을 더한다.
+ * 조항 번호는 한국어판과 같게 맞춘다(Article 9 = 제9조) — 한쪽을 고치면 같은 번호를 고친다.
+ * ⚠️ 영어권 법률 검토 따로 필요. DMCA 면책을 받으려면 미국 저작권청에 지정 대리인(Designated Agent) 등록이 필요하다(미등록).
+ * ⚠️ EU·영국 분석 동의 배너는 아직 없다 — 그래서 분석 근거를 「정당한 이익 + 이의 제기」로 적었다. 배너를 넣으면 「동의」로 고친다.
+ */
+const SELLER_EN = {
+  companyName: 'IMNACO805 (아임나코805)',
+  representative: 'Cho Mikyung',
+  address: '36, Banpo-daero 18-gil, Seocho-gu, Seoul, Republic of Korea',
+  businessRegistrationNumber: '776-11-01043',
+  phone: '+82-507-1357-1334',
+  email: SELLER.email,
+};
+
+const APP_EN = 'Toile';
+
+const termsEn = {
+  slug: 'fitboard',
+  appName: APP_EN,
+  lang: 'en',
+  docType: 'terms-en',
+  docTitle: 'Terms of Service',
+  effectiveDate: EFFECTIVE_DATE,
+  seller: SELLER_EN,
+  sections: [
+    ['1. About these terms', `These Terms of Service ("Terms") govern your use of the Toile app and related services (the "Service") provided by ${SELLER_EN.companyName} ("we", "us"). By creating an account or using the Service, you agree to these Terms. Our Privacy Policy explains how we handle your data; it is a notice, not something you agree to.`],
+
+    ['2. What Toile does', 'Toile lets you:\n\n· Save outfit photos from your camera, photo library, the share sheet, or a web address.\n· Build a personal wardrobe — AI identifies the clothes in your photos.\n· See combinations and AI outfit images made from clothes you already own.\n· Log what you wore and see outfits suited to the weather in a city you choose.\n· Browse outfits other people chose to make public, and recommended outfits.\n· Follow product links to retailers\' official stores.\n\nWe may change or discontinue parts of the Service. We will tell you in the app before a significant change that affects you negatively.'],
+
+    ['3. Your account', '· You must be at least 13 years old to use Toile. If you live in the European Economic Area or the United Kingdom, you must be at least 16, or the age of digital consent in your country if lower. In Korea, the minimum age is 14.\n· Your account is for you alone. Do not share or transfer it.\n· You can delete your account at any time in Settings > Delete account. This permanently deletes your photos and records, and immediately removes any outfits you made public.'],
+
+    ['4. What you save is private', '· Outfit photos and wardrobe items you save are visible only to you by default.\n· Photos saved from a web address or the share sheet, and photos saved from someone else\'s public outfit, can never be made public.\n· When you save from a web address, Toile saves only the one photo you choose, from the one page you specify, for your personal use, together with the original source address. We do not crawl or bulk-collect pages.\n· We do not save from sites that opt out (for example via robots.txt or a "nopin" tag).\n· Do not copy or distribute saved photos beyond personal use.'],
+
+    ['5. Making an outfit public', 'You may share an outfit photo that you took yourself to Discover.\n\n[Conditions]\n· You must be at least 18 years old (19 in Korea).\n· Only photos taken with the in-app camera, or library photos where you check "I took this photo myself", can be made public.\n· The first time you post, you confirm the conditions in these Terms.\n· Before a photo goes public we automatically check it for sexual, violent or hateful content, and do not publish it if it fails.\n\n[Taking it down]\nYou can make a public outfit private again at any time. Other people will no longer see it.'],
+
+    ['6. License for public outfits', 'When you make an outfit public, you grant us the following license:\n\n· Purpose: showing it to other users within the Service and offering it as a recommended outfit\n· Scope: displaying it within the Service, and the copying, resizing and storage needed to do so\n· Term: until you make it private again or delete your account\n· Fee: none\n· Non-exclusive and worldwide (so users anywhere can see it in the app)\n\nYou keep the copyright. We do not use public outfits for marketing outside the Service, such as App Store screenshots or ads, without asking you separately.'],
+
+    ['7. Your promises and responsibility', 'When you make an outfit public, you promise that:\n\n· You took the photo yourself and hold the rights to it.\n· Anyone else who appears in it has agreed to it being public.\n· It does not infringe anyone\'s copyright, image rights, privacy or other rights.\n\nIf these promises are untrue and a third party makes a claim against us, you are responsible for resolving it at your own cost, and you agree to compensate us for resulting losses, to the extent permitted by law. This does not apply to the extent the loss was caused by our own intentional misconduct or negligence.'],
+
+    ['8. What you must not do', 'Do not:\n\n· Post a photo someone else took as if you took it\n· Post a photo showing another person\'s face or body without their consent, or use one as your profile photo\n· Post sexual, violent, hateful or discriminatory content, or anything illegal\n· Use someone else\'s account, or use the Service in bulk by automated means\n· Interfere with the normal operation of the Service\n\nWe have zero tolerance for objectionable content. If you break these rules, we may remove content and restrict your account without notice.'],
+
+    ['9. Reports and rights complaints', '[In-app reports]\nOn any public outfit, tap Report and choose a reason such as "My face is in this photo", "This is my photo but someone else posted it", or "Offensive or inappropriate". The outfit is hidden from you immediately. You can also hide all photos from a specific user.\n\n[Copyright notices (including the U.S. DMCA)]\nIf you believe a public outfit infringes your copyright, send a notice to the contact below with:\n· your physical or electronic signature;\n· the photo you believe infringes (a screenshot or description of where it appears);\n· the work you claim is infringed;\n· your name, address, phone and email;\n· a statement that you have a good-faith belief the use is not authorized by the owner, its agent or the law; and\n· a statement, under penalty of perjury, that the information is accurate and that you are the owner or authorized to act for the owner.\n\nContact: ' + SELLER_EN.representative + ', ' + SELLER_EN.address + ' · ' + SELLER_EN.phone + ' · ' + SELLER_EN.email + '\n\nIf your outfit was removed and you believe this was a mistake, you can send a counter-notice to the same contact.\n\n[Image rights, privacy and defamation]\nIf a public outfit shows your face or body without your consent, or otherwise violates your privacy or reputation, you can ask us through the contact above or an in-app report to remove it. We will promptly remove it or hide it from everyone. Where it is unclear whether rights were violated, we may hide it for up to 30 days while the poster responds; if the poster does not ask to restore it within that time, we delete it.\n\n[How we handle complaints]\n· Within 2 business days of receiving a valid complaint, we stop showing the photo publicly and notify both the complainant and the poster.\n· We keep records of how complaints were handled.\n· We suspend public posting for accounts that repeatedly infringe, and may terminate them in serious cases.\n\nWe do not automatically judge whether a photo infringes someone\'s rights. We act on reports.'],
+
+    ['10. AI features', '· Clothing recognition, color and category labels, and AI outfit images are generated by AI and may be inaccurate. You can correct them at any time.\n· AI outfit images are visible only to you and are never posted publicly.\n· AI features are available up to the limits shown in the app.'],
+
+    ['11. Shopping links', '· Product links are affiliate links. If you buy through them, we may earn a commission from the retailer, at no extra cost to you.\n· We are not the seller. Orders, payments, delivery, returns and refunds are governed by and the responsibility of each retailer.'],
+
+    ['12. Limitation of liability', 'The Service is provided free of charge and "as is". To the extent permitted by law, we are not liable for:\n\n· failures caused by events beyond our reasonable control, such as natural disasters or network outages;\n· content that users save or post, unless we acted intentionally or negligently;\n· indirect or consequential losses.\n\nNothing in these Terms limits liability that cannot be limited by law, or your statutory rights as a consumer.'],
+
+    ['13. Changes to these terms', 'We may update these Terms in line with applicable law. We will announce changes and their effective date in the app and on this page at least 7 days in advance (30 days for changes that disadvantage you).\n\nIf you keep using the Service past the effective date without telling us you object, you accept the updated Terms. We will say this clearly each time we announce a change. If you do not agree, you may delete your account.'],
+
+    ['14. Governing law and disputes', 'These Terms are governed by the laws of the Republic of Korea. Disputes will be resolved by the competent court under the Korean Civil Procedure Act. If you are a consumer living in the EEA, the UK or another country whose law gives you mandatory protections, you keep those protections and may bring a claim in the courts of your country.\n\nIf the Korean and English versions of these Terms differ, the version in the language you use the app in applies to you.'],
+
+    ['Effective date', `These Terms apply from ${EFFECTIVE_DATE}.`],
+  ],
+};
+
+const privacyEn = {
+  slug: 'fitboard',
+  appName: APP_EN,
+  lang: 'en',
+  docType: 'privacy-en',
+  docTitle: 'Privacy Policy',
+  effectiveDate: PRIVACY_DATE,
+  seller: SELLER_EN,
+  sections: [
+    ['1. What we collect', `${SELLER_EN.companyName} ("we") is the controller of your personal data for Toile. We collect only what we need to run the Service.\n\n[Sign-in]\n· Your email address (if you sign in with email)\n· Your Apple or Google account identifier and email (if you sign in with Apple or Google)\n\n[What you save]\n· Outfit and clothing photos, and the details we recognize in them or you enter (clothing attributes such as category and color, outfit tags such as style, occasion and season, and item names)\n· The original web address, if you saved a photo from one\n· Wear logs, saved combinations and AI outfit images\n· The city you choose for weather (we never collect your device location)\n\n[Public posts and reports]\n· Your public profile name, whether you are an adult, and whether you declared a photo as your own\n· Reports you make or receive and how they were handled, the users you have blocked, and the outfits and users you have hidden\n\n[Collected automatically]\n· Usage events (which screens and features you use), device and OS type, app language, and timestamps\n· Your reactions in the app (saving, liking, hiding, wearing) and viewing records (which outfits were shown to you, which you opened, and how long you stayed)\n· We link usage records to a member ID, not your email.\n· We never record web addresses, photo paths, email addresses or item names in usage events, and we do not use session recording.\n\nBefore a photo leaves your device, we remove its embedded metadata (EXIF), including location.`],
+
+    ['2. Why we use it, and our legal bases', 'For users in the EEA and UK, we rely on the following legal bases under the GDPR and UK GDPR:\n\n· Contract — to create your account, store your photos, recognize clothing, and provide your wardrobe, combinations, wear log, weather outfits, public posts and personalized recommendations (choosing and ordering the outfits recommended in Discover, based on what you save and how you use the app)\n· Legitimate interests — to keep the Service safe (checking public photos for objectionable content, handling reports, preventing abuse) and to improve it with usage statistics linked to a member ID rather than your name or email. You can object at any time (see section 6).\n· Legal obligation — to respond to valid legal requests and keep records required by law\n· Consent — to make an outfit public. You can withdraw consent by making it private again.'],
+
+    ['3. How long we keep it', '· When you delete your account, we delete your account, photos, wardrobe, combinations, wear log and public outfits without delay. Deleted data cannot be recovered.\n· When you delete a photo or outfit, we delete it right away.\n· Records of how rights complaints were handled are kept for 3 years after the complaint is closed, to deal with disputes. This period is our own choice, not a statutory one.\n· Usage records (usage statistics, and what you viewed and reacted to) are deleted after 1 year, or kept only as aggregate numbers that cannot identify you. If you delete your account, they are deleted then.\n· We keep data longer only where the law requires it.'],
+
+    ['4. Service providers and international transfers', 'We use the following providers to run Toile. Some process data outside your country, including in the United States. Where data is transferred out of the EEA or UK, we rely on the provider\'s Standard Contractual Clauses (and the UK Addendum) or an adequacy decision. These providers act as our processors: they handle data only to do the job listed, when you use that feature, over encrypted connections (HTTPS). They delete data when the job is done, and at the latest when you delete your account or our contract with them ends.\n\n[Providers] provider (location) — what they do / data involved / contact\n· Supabase, Inc. (servers in Seoul, Korea) — account, photo and record storage; sign-in / sign-in details, photos, wardrobe, combinations and wear log / privacy@supabase.com\n· Cloudflare, Inc. (USA, global network) — delivering the app / connection data (IP address, device and browser type), sign-in session / privacyquestions@cloudflare.com\n· Resend, Inc. (servers in Tokyo, Japan) — sending sign-in emails / email address / support@resend.com\n· Anthropic, PBC (USA) — recognizing clothing; checking public photos for objectionable content / outfit photos / privacy@anthropic.com. Under our contract, not used to train models\n· Google LLC (USA) — generating AI outfit images / clothing photos / support.google.com/policies. Under the paid API terms, not used to train models or improve Google products\n· Apple Inc. (USA) — weather for the city you chose / city only, no identifiers / apple.com/legal/privacy/contact\n· PostHog, Inc. (servers in Frankfurt, Germany, EU) — usage analytics / usage events, device info, member ID (no email) / privacy@posthog.com\n\n[When providers change]\nWhen we add or replace a provider, we update this list promptly and announce it in the app. Changing a provider does not require new consent from you.\n\nKorea has been recognized by the European Commission and the UK as providing adequate data protection.'],
+
+    ['5. Sharing', 'We do not sell your personal information, and we do not share it for cross-context behavioral advertising (as defined under the California Consumer Privacy Act). We do not give it to third parties, except where required by law.\n\nIf you make an outfit public, that photo and your public profile name are visible to other users. This is your choice.\n\nShopping links take you to retailer and affiliate-network sites (such as Rakuten). Their own privacy policies apply there.'],
+
+    ['6. Your rights', '· In the app, you can view, edit and delete your photos, items and records yourself, make public outfits private, and delete your account.\n· Depending on where you live, you may also have the right to access, correct, delete or export your data, to restrict or object to processing (including analytics based on legitimate interests), and to withdraw consent.\n· California residents have the right to know, delete and correct their personal information, and not to be discriminated against for exercising these rights. We do not sell or share personal information.\n· To exercise a right, email us at the address below. We respond within the time required by law (one month in the EEA and UK). We will not charge you.\n· In the EEA or UK, you can also complain to your local data protection authority.'],
+
+    ['7. Children', 'Toile is not for children under 13 (under 16 in the EEA and UK, or the age of digital consent if lower; under 14 in Korea). We do not knowingly collect data from them. If we learn we have, we delete it immediately.'],
+
+    ['8. Security', '· Saved photos are kept in private storage that only you can access.\n· Public outfits are copied to separate public storage, apart from private storage.\n· All connections are encrypted (HTTPS).\n· Usage events contain nothing that directly identifies you.'],
+
+    ['9. Contact', `· Privacy contact: ${SELLER_EN.representative}\n· Email: ${SELLER_EN.email}\n· Phone: ${SELLER_EN.phone}`],
+
+    ['10. Changes to this policy', `This Privacy Policy applies from ${PRIVACY_DATE}.\n\n· If we change something significant — what we collect, why, or how long we keep it — we will show you what changed, before and after, in the app and on this page before it takes effect.\n· For changes such as the list of providers, we update this page promptly and announce it in the app.\n· This policy is a notice, not something you agree to. If a change needs your consent, we ask for that consent separately.`],
+  ],
+};
+
+module.exports = [terms, privacy, termsEn, privacyEn];
