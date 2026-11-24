@@ -37,7 +37,7 @@ const SELLER = {
   email: 'imnaco805@gmail.com',
 };
 
-const EFFECTIVE_DATE = '2026-11-22'; // 이용약관 — 제13조에 「거부하지 않으면 동의로 본다」 문구 추가
+const EFFECTIVE_DATE = '2026-11-24'; // 제4조에 크리에이터·비즈니스 계정 예외 한 줄(크리에이터·비즈니스 약관으로 따로 동의) · 이용약관 — 제13조에 「거부하지 않으면 동의로 본다」 문구 추가
 const PRIVACY_DATE = '2026-11-24'; // 크리에이터·비즈니스 신청 항목·목적·보유 기간 추가 · 개인정보처리방침 — PostHog 서버를 EU(독일)로 옮김 · 법적 근거·국외 이전 항목 보강 · 영문판에 맞춤 추천·조회 기록 고지
 const APP = 'Toile (뚜왈)';
 
@@ -55,7 +55,7 @@ const terms = {
 
     ['제3조 가입과 계정', '· 만 14세 이상이면 이메일 인증, Apple 또는 Google 계정으로 가입할 수 있어요.\n· 계정은 본인만 써야 하고, 다른 사람에게 넘기거나 빌려줄 수 없어요.\n· 이용자는 언제든 설정 > 계정 삭제에서 탈퇴할 수 있어요. 탈퇴하면 담은 사진과 기록이 모두 지워지고, 공개한 코디도 즉시 내려가요. 다만 다른 이용자가 이미 담아 간 공개 코디의 사본은 그 이용자의 보관함에 남아요(제6조).'],
 
-    ['제4조 담은 사진은 나만 봐요', '· 이용자가 담은 코디 사진과 옷장은 기본적으로 본인만 볼 수 있어요.\n· 웹 주소·다른 앱의 공유로 담은 사진, 다른 이용자의 공개 코디에서 담아 온 사진은 공개할 수 없어요.\n· 웹 주소로 담을 때는 이용자가 지정한 한 페이지에서 이용자가 고른 사진 한 장만 개인적으로 보관하는 목적으로 담고, 원래 출처 주소를 함께 보관해요. 회사는 페이지를 목록으로 수집하거나 자동으로 돌아다니지 않아요.\n· 사이트가 저장 거부를 표시한 경우(robots.txt, nopin 등)에는 담지 않아요.\n· 이용자는 개인적인 이용 범위를 넘어 담은 사진을 복제·배포하지 않아야 해요.'],
+    ['제4조 담은 사진은 나만 봐요', '· 이용자가 담은 코디 사진과 옷장은 기본적으로 본인만 볼 수 있어요.\n· 웹 주소·다른 앱의 공유로 담은 사진, 다른 이용자의 공개 코디에서 담아 온 사진은 공개할 수 없어요.\n· 다만 크리에이터·비즈니스 계정이 코디를 공개하면 그 코디에 든 옷의 옷장 대표 사진이 함께 보여요. 이 계정은 신청할 때 「크리에이터·비즈니스 약관」에 따로 동의해요.\n· 웹 주소로 담을 때는 이용자가 지정한 한 페이지에서 이용자가 고른 사진 한 장만 개인적으로 보관하는 목적으로 담고, 원래 출처 주소를 함께 보관해요. 회사는 페이지를 목록으로 수집하거나 자동으로 돌아다니지 않아요.\n· 사이트가 저장 거부를 표시한 경우(robots.txt, nopin 등)에는 담지 않아요.\n· 이용자는 개인적인 이용 범위를 넘어 담은 사진을 복제·배포하지 않아야 해요.'],
 
     ['제5조 코디 공개', '이용자는 본인이 직접 찍은 코디 사진과 AI로 만든 코디 이미지를 「발견」에 공개할 수 있어요.\n\n[공개 조건]\n· 만 19세 이상이어야 해요.\n· 직접 찍은 사진: 앱 카메라로 찍은 사진, 또는 사진 앨범에서 고른 사진 중 「제가 직접 찍었고, 사진 속 다른 사람에게 동의를 받았어요」를 직접 체크한 사진만 공개할 수 있어요.\n· AI로 만든 이미지: 「AI로 만든 이미지예요. 실존 인물이나 남의 로고를 넣지 않았어요」를 직접 체크한 이미지만 공개할 수 있어요. 공개하면 「AI」 표시가 붙어요.\n· 처음 공개할 때 이 약관의 공개 조항과 불쾌한 콘텐츠 금지에 동의해야 해요.\n· 회사는 공개 전에 음란·폭력·혐오 사진인지 자동으로 검사하고, 해당하면 공개하지 않아요.\n\n[내리기]\n이용자는 언제든 공개한 코디를 내릴 수 있어요. 내리면 「발견」과 프로필에서 더 이상 보이지 않아요. 다만 내리기 전에 다른 이용자가 담은 사본은 그 이용자의 보관함에 남아요(제6조).'],
 
@@ -144,7 +144,7 @@ const termsEn = {
 
     ['3. Your account', '· You must be at least 13 years old to use Toile. If you live in the European Economic Area or the United Kingdom, you must be at least 16, or the age of digital consent in your country if lower. In Korea, the minimum age is 14.\n· Your account is for you alone. Do not share or transfer it.\n· You can delete your account at any time in Settings > Delete account. This permanently deletes your photos and records, and immediately removes any outfits you made public. Copies that other users already saved from your public outfits stay in their libraries (see section 6).'],
 
-    ['4. What you save is private', '· Outfit photos and wardrobe items you save are visible only to you by default.\n· Photos saved from a web address or the share sheet, and photos saved from someone else\'s public outfit, can never be made public.\n· When you save from a web address, Toile saves only the one photo you choose, from the one page you specify, for your personal use, together with the original source address. We do not crawl or bulk-collect pages.\n· We do not save from sites that opt out (for example via robots.txt or a "nopin" tag).\n· Do not copy or distribute saved photos beyond personal use.'],
+    ['4. What you save is private', '· Outfit photos and wardrobe items you save are visible only to you by default.\n· Photos saved from a web address or the share sheet, and photos saved from someone else\'s public outfit, can never be made public.\n· One exception: when a creator or business account makes an outfit public, the wardrobe cover photo of each item in that outfit is shown with it. These accounts agree to the separate Creator and Business Terms when they apply.\n· When you save from a web address, Toile saves only the one photo you choose, from the one page you specify, for your personal use, together with the original source address. We do not crawl or bulk-collect pages.\n· We do not save from sites that opt out (for example via robots.txt or a "nopin" tag).\n· Do not copy or distribute saved photos beyond personal use.'],
 
     ['5. Making an outfit public', 'You may share to Discover an outfit photo that you took yourself, or an outfit image made with AI.\n\n[Conditions]\n· You must be at least 18 years old (19 in Korea).\n· Photos you took: only photos taken with the in-app camera, or library photos where you check "I took this photo myself and have consent from anyone else in it", can be made public.\n· AI-made images: only images where you check "Made with AI. No real people or other brands\' logos" can be made public. They carry an "AI" label once public.\n· The first time you post, you confirm the conditions in these Terms.\n· Before a photo goes public we automatically check it for sexual, violent or hateful content, and do not publish it if it fails.\n\n[Taking it down]\nYou can make a public outfit private again at any time. It no longer appears in Discover or on your profile. Copies that other users saved before then stay in their libraries (see section 6).'],
 
@@ -201,4 +201,56 @@ const privacyEn = {
   ],
 };
 
-module.exports = [terms, privacy, termsEn, privacyEn];
+/**
+ * 크리에이터·비즈니스 약관 — 신청할 때만 따로 동의받는 추가 약관(오너 결정 2026-11-24).
+ *  · 주소: fitboard/partner-terms.html · partner-terms-en.html
+ *  · 앱은 신청 화면에서 이 문서를 열고, 동의한 판(PARTNER_DATE)·시각·언어를 기록한다(fitboard account 세션).
+ *  · 내용을 바꾸면 PARTNER_DATE 를 올린다 — 앱의 동의 판 번호도 같이 올려야 한다.
+ *  · 수익 나누기·정산을 시작하면 제8조를 채우고 처리방침(정산 정보·세법 보관 5년)도 함께 고친다.
+ */
+const PARTNER_DATE = '2026-11-24';
+
+const partnerTerms = {
+  slug: 'fitboard',
+  appName: APP,
+  docType: 'partner-terms',
+  docTitle: '크리에이터·비즈니스 약관',
+  effectiveDate: PARTNER_DATE,
+  seller: SELLER,
+  sections: [
+    ['제1조 이 약관은', `이 약관은 Toile의 크리에이터 계정과 비즈니스 계정에 적용돼요. Toile 이용약관(이하 "이용약관")에 더해지는 약관이고, 두 약관의 내용이 다르면 이 약관을 먼저 따라요.\n\n크리에이터·비즈니스 계정을 신청할 때 이 약관에 동의해요. 회사는 동의한 약관의 시행일과 동의한 시각을 기록해요.`],
+    ['제2조 신청과 승인', '· 신청할 때 적는 정보는 사실이어야 해요. 다른 사람의 정보를 적을 때는 그 사람에게 먼저 알려야 해요.\n· 회사는 신청 내용을 확인해 승인하거나 돌려보내요. 회사가 모든 신청을 승인해야 하는 것은 아니에요.\n· 적은 정보가 바뀌면 회사에 알려 주세요.\n· 신청 정보를 어떻게 처리하고 얼마나 보관하는지는 개인정보처리방침에 적혀 있어요.'],
+    ['제3조 옷장 대표 사진이 함께 보여요', '· 크리에이터·비즈니스 계정이 코디를 공개하면, 그 코디에 든 옷마다 옷장에 둔 대표 사진이 다른 이용자에게 그대로 보여요. 대표 사진을 웹 주소나 공유로 담았더라도 마찬가지예요. 이용약관 제4조의 예외예요.\n· 공개한 코디에 들지 않은 옷의 사진은 보이지 않아요.\n· 대표 사진을 바꾸면 바뀐 사진이 보여요.\n· 다른 이용자가 그 코디를 담으면 대표 사진도 사본에 함께 복사돼요. 사본은 이용약관 제6조와 제9조를 따라요.'],
+    ['제4조 대표 사진에 대한 보증', '크리에이터·비즈니스 계정은 공개 코디에 함께 보이는 옷장 대표 사진에 대해 다음을 보증해요.\n\n· 직접 찍었거나, 공개해도 된다는 권리나 허락이 있는 사진이에요.\n· 다른 사람이나 다른 회사의 상품 사진을 허락 없이 쓰지 않았어요.\n· 사진에 다른 사람이 나왔다면 그 사람에게 공개 동의를 받았어요.\n\n회사는 옷 사진을 공개 전에 따로 검사하지 않아요. 신고를 받으면 이용약관 제9조에 따라 처리해요. 이 보증이 사실과 다를 때의 책임은 이용약관 제7조와 같아요.'],
+    ['제5조 이용 허락', '공개 코디에 함께 보이는 옷장 대표 사진도 이용약관 제6조의 이용 허락 대상이에요. 범위는 같아요 — 서비스 안에서 보여주는 것과 그에 필요한 복제·크기 조절·저장, 그리고 다른 이용자가 담은 사본이에요. 저작권은 이용자에게 그대로 남아요.'],
+    ['제6조 대가를 받은 코디', '브랜드나 판매자에게서 돈·상품·할인 같은 대가를 받고 코디를 공개할 때는, 보는 사람이 그 사실을 알 수 있게 밝혀야 해요. 자기 회사나 자기가 파는 상품을 소개할 때도 같아요.'],
+    ['제7조 승인을 거두는 경우', '· 신청 정보가 거짓이거나, 권리 침해가 반복되거나, 이 약관이나 이용약관을 어기면 회사는 승인을 거둘 수 있어요. 거두기 전에 이유를 알리고, 급한 경우에는 먼저 조치한 뒤 알려요.\n· 이용자는 언제든 개인 계정으로 돌아가겠다고 요청할 수 있어요.\n· 개인 계정으로 돌아가면 옷장 대표 사진은 더 이상 다른 이용자에게 보이지 않아요. 그 전에 다른 이용자가 담은 사본은 이용약관 제6조와 제9조를 따라요.'],
+    ['제8조 수익', '지금은 수익 나누기나 정산이 없어요. 시작하게 되면 조건을 이 약관에 넣고, 그 조건에 따로 동의받아요.'],
+    ['제9조 약관의 변경', '이 약관을 바꿀 때는 시행 7일 전(이용자에게 불리한 변경은 30일 전)에 앱 안에서 알려요. 그 밖의 절차는 이용약관 제13조와 같아요.'],
+    ['부칙', `이 약관은 ${PARTNER_DATE}부터 적용돼요.`],
+  ],
+};
+
+const partnerTermsEn = {
+  slug: 'fitboard',
+  appName: APP_EN,
+  lang: 'en',
+  docType: 'partner-terms-en',
+  docTitle: 'Creator and Business Terms',
+  effectiveDate: PARTNER_DATE,
+  seller: SELLER_EN,
+  sections: [
+    ['1. About these terms', 'These terms apply to creator accounts and business accounts on Toile. They add to the Toile Terms of Service (the "Terms"). If the two differ, these terms come first.\n\nYou agree to these terms when you apply for a creator or business account. We record which version you agreed to and when.'],
+    ['2. Applying and approval', '· The details you give us must be true. If you enter another person’s details, tell them first.\n· We review each application and either approve or return it. We are not obliged to approve every application.\n· Tell us if your details change.\n· Our Privacy Policy explains how we handle application details and how long we keep them.'],
+    ['3. Your wardrobe cover photos are shown', '· When a creator or business account makes an outfit public, the cover photo you set in your wardrobe for each item in that outfit is shown to other users as it is — even if you saved that photo from a web address or the share sheet. This is an exception to section 4 of the Terms.\n· Photos of items that are not in a public outfit are not shown.\n· If you change a cover photo, the new one is shown.\n· When another user saves the outfit, the cover photos are copied with it. Those copies follow sections 6 and 9 of the Terms.'],
+    ['4. Your promises about cover photos', 'For the wardrobe cover photos shown with your public outfits, you promise that:\n\n· You took them yourself, or you have the right or permission to show them publicly.\n· You have not used another person’s or company’s product photo without permission.\n· Anyone who appears in them has agreed to it being public.\n\nWe do not check item photos before they go public. We act on reports under section 9 of the Terms. If these promises are untrue, section 7 of the Terms applies.'],
+    ['5. License', 'Wardrobe cover photos shown with a public outfit are covered by the license in section 6 of the Terms, with the same scope: showing them within the Service, the copying, resizing and storage needed to do so, and copies saved by other users. You keep the copyright.'],
+    ['6. Paid or gifted outfits', 'If a brand or seller gave you money, products, discounts or anything else of value for an outfit you make public, you must make that clear to people who see it. The same applies when you show your own company’s products or products you sell.'],
+    ['7. Withdrawing approval', '· We may withdraw approval if your application details were false, if you repeatedly infringe others’ rights, or if you break these terms or the Terms. We will tell you why first; in urgent cases we act first and tell you afterwards.\n· You can ask to go back to a personal account at any time.\n· Once you are a personal account again, your wardrobe cover photos are no longer shown to other users. Copies saved before then follow sections 6 and 9 of the Terms.'],
+    ['8. Earnings', 'There is no revenue sharing or payout at this time. If we start one, we will add the conditions to these terms and ask you to agree to them separately.'],
+    ['9. Changes to these terms', 'We will tell you in the app at least 7 days before a change takes effect (30 days if the change is unfavorable to you). Otherwise, the process in the Terms applies.'],
+    ['Effective date', `These terms apply from ${PARTNER_DATE}.`],
+  ],
+};
+
+module.exports = [terms, privacy, termsEn, privacyEn, partnerTerms, partnerTermsEn];
