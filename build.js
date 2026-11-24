@@ -28,7 +28,9 @@ const NAV = {
   'marketing-consent': ['마케팅 정보 수신 동의', 'marketing-consent.html'],
   // 영문판 — 문서에 lang: 'en' 을 적고 docType 끝에 -en 을 붙인다(지금은 Toile 만)
   'terms-en': ['Terms of Service', 'terms-en.html'],
+  'partner-terms': ['크리에이터·비즈니스 약관', 'partner-terms.html'],
   'privacy-en': ['Privacy Policy', 'privacy-en.html'],
+  'partner-terms-en': ['Creator and Business Terms', 'partner-terms-en.html'],
 };
 
 const isEnType = (k) => k.endsWith('-en');
